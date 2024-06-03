@@ -42,3 +42,12 @@ class Projekt_2Dialog(QtWidgets.QDialog, FORM_CLASS):
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
+        self.pushButton_dh.clicked.connect(self.calculate_dh)
+        
+    def calculate_dh(self):
+        selected_layer = self.mMapLayerComboBox.currentLayer()
+        features = selected_layer.selectedFeatures()
+        h_1 = float(features[0]['wysokosc'])
+        h_2 = float(features[1]['wysokosc'])
+        dh = h_2 - h_1 
+        self.label_dh_result.setText(f'{dh}m')
