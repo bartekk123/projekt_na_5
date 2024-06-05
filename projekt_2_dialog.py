@@ -48,10 +48,15 @@ class Projekt_2Dialog(QtWidgets.QDialog, FORM_CLASS):
         self.checkBox_m2.stateChanged.connect(self.onCheckBoxChanged)
         self.checkBox_ary.stateChanged.connect(self.onCheckBoxChanged)
         self.checkBox_ha.stateChanged.connect(self.onCheckBoxChanged)
+        self.pushButton_clear.clicked.connect(self.wyczysc_wyniki)
         
     def calculate_dh(self):
         selected_layer = self.mMapLayerComboBox.currentLayer()
         features = selected_layer.selectedFeatures()
+        if len(features) != 2:
+            self.label_h_error.setText("Wybierz dokładnie dwa punkty!")
+            return
+        
         h_1 = float(features[0]['wysokosc'])
         h_2 = float(features[1]['wysokosc'])
         nr1 = features[0]['nr_punktu']
@@ -63,6 +68,9 @@ class Projekt_2Dialog(QtWidgets.QDialog, FORM_CLASS):
     def pole_powierzchni(self):
         selected_layer = self.mMapLayerComboBox.currentLayer()
         features = selected_layer.selectedFeatures()
+        if len(features) < 3:
+            self.label_pole_error.setText("Wybierz przynajmiej 3 punkty!")
+            return
         n = len(features)
         suma = 0
         for i in range(n):
@@ -72,7 +80,7 @@ class Projekt_2Dialog(QtWidgets.QDialog, FORM_CLASS):
             yi_plus_1 = float(features[(i + 1) % n]['y'])
             suma += xi * yi_plus_1 - xi_plus_1 * yi
 
-        # Oblicz pole w różnych jednostkach
+       
         pole_m2 = 0.5 * abs(suma)  # Pole w metrach kwadratowych
         pole_a = pole_m2 / 100  # Pole w arach
         pole_ha = pole_m2 / 10000  # Pole w hektarach
@@ -81,7 +89,7 @@ class Projekt_2Dialog(QtWidgets.QDialog, FORM_CLASS):
 
     def oblicz_pole(self, state):
         if state == Qt.Checked:
-            pole_m2, pole_a, pole_ha = self.pole_powierzchni()  # Tutaj dostosuj swoje obliczenia
+            pole_m2, pole_a, pole_ha = self.pole_powierzchni()  
             wybrane_punkty = self.mMapLayerComboBox.currentLayer().selectedFeatures()
             punkty_str = ", ".join(f"({p['x']}, {p['y']})" for p in wybrane_punkty)
             if self.checkBox_m2.isChecked():
@@ -90,4 +98,12 @@ class Projekt_2Dialog(QtWidgets.QDialog, FORM_CLASS):
                 self.label_pole_result.setText(f'{pole_a} akr ({punkty_str})')
             elif self.checkBox_ha.isChecked():
                 self.label_pole_result.setText(f'{pole_ha} hektarów ({punkty_str})')
-        
+    def wyczysc_wyniki(self):
+        self.label_dh_result_result.clear()
+        self.label_pole_result.clear()
+        self.checkBox_m2.setChecked(False)
+        self.checkBox_a.setChecked(False)
+        self.checkBox_ha.setChecked(False)
+        self.label_h_error.clear()
+        self.label_pole_error.clear()
+        self.mMapLayerComboBox.clear()
