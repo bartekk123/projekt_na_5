@@ -26,6 +26,7 @@ import os
 
 from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
+from PyQt5.QtCore import Qt
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -43,11 +44,50 @@ class Projekt_2Dialog(QtWidgets.QDialog, FORM_CLASS):
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
         self.pushButton_dh.clicked.connect(self.calculate_dh)
+        self.pushButton_pole.connect(self.oblicz_pole)
+        self.checkBox_m2.stateChanged.connect(self.onCheckBoxChanged)
+        self.checkBox_ary.stateChanged.connect(self.onCheckBoxChanged)
+        self.checkBox_ha.stateChanged.connect(self.onCheckBoxChanged)
         
     def calculate_dh(self):
         selected_layer = self.mMapLayerComboBox.currentLayer()
         features = selected_layer.selectedFeatures()
         h_1 = float(features[0]['wysokosc'])
         h_2 = float(features[1]['wysokosc'])
+        nr1 = features[0]['nr_punktu']
+        nr2 = features[1]['nr_punktu']
         dh = h_2 - h_1 
-        self.label_dh_result.setText(f'{dh}m')
+        self.label_dh_result.setText(f'Roznica wysokosci miedzy punktami {nr2} a {nr1} wynosi {dh} m')
+        
+        
+    def pole_powierzchni(self):
+        selected_layer = self.mMapLayerComboBox.currentLayer()
+        features = selected_layer.selectedFeatures()
+        n = len(features)
+        suma = 0
+        for i in range(n):
+            xi = float(features[i]['x'])
+            yi = float(features[i]['y'])
+            xi_plus_1 = float(features[(i + 1) % n]['x'])
+            yi_plus_1 = float(features[(i + 1) % n]['y'])
+            suma += xi * yi_plus_1 - xi_plus_1 * yi
+
+        # Oblicz pole w różnych jednostkach
+        pole_m2 = 0.5 * abs(suma)  # Pole w metrach kwadratowych
+        pole_a = pole_m2 / 100  # Pole w arach
+        pole_ha = pole_m2 / 10000  # Pole w hektarach
+
+        return pole_m2, pole_a, pole_ha
+
+    def oblicz_pole(self, state):
+        if state == Qt.Checked:
+            pole_m2, pole_a, pole_ha = self.pole_powierzchni()  # Tutaj dostosuj swoje obliczenia
+            wybrane_punkty = self.mMapLayerComboBox.currentLayer().selectedFeatures()
+            punkty_str = ", ".join(f"({p['x']}, {p['y']})" for p in wybrane_punkty)
+            if self.checkBox_m2.isChecked():
+                self.label_pole_result.setText(f'{pole_m2} m² ({punkty_str})')
+            elif self.checkBox_a.isChecked():
+                self.label_pole_result.setText(f'{pole_a} akr ({punkty_str})')
+            elif self.checkBox_ha.isChecked():
+                self.label_pole_result.setText(f'{pole_ha} hektarów ({punkty_str})')
+        

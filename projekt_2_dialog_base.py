@@ -42,6 +42,27 @@ class Ui_Projekt_2DialogBase(object):
         self.mMapLayerComboBox = QgsMapLayerComboBox(Projekt_2DialogBase)
         self.mMapLayerComboBox.setGeometry(QtCore.QRect(220, 40, 281, 31))
         self.mMapLayerComboBox.setObjectName("mMapLayerComboBox")
+        self.pushButton_pole = QtWidgets.QPushButton(Projekt_2DialogBase)
+        self.pushButton_pole.setGeometry(QtCore.QRect(40, 160, 251, 41))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        font.setBold(False)
+        font.setWeight(50)
+        self.pushButton_pole.setFont(font)
+        self.pushButton_pole.setObjectName("pushButton_pole")
+        self.label_pole_result = QtWidgets.QLabel(Projekt_2DialogBase)
+        self.label_pole_result.setGeometry(QtCore.QRect(330, 160, 171, 41))
+        self.label_pole_result.setText("")
+        self.label_pole_result.setObjectName("label_pole_result")
+        self.checkBox_m2 = QtWidgets.QCheckBox(Projekt_2DialogBase)
+        self.checkBox_m2.setGeometry(QtCore.QRect(50, 210, 81, 20))
+        self.checkBox_m2.setObjectName("checkBox_m2")
+        self.checkBox_ary = QtWidgets.QCheckBox(Projekt_2DialogBase)
+        self.checkBox_ary.setGeometry(QtCore.QRect(130, 210, 81, 20))
+        self.checkBox_ary.setObjectName("checkBox_ary")
+        self.checkBox_ha = QtWidgets.QCheckBox(Projekt_2DialogBase)
+        self.checkBox_ha.setGeometry(QtCore.QRect(230, 210, 81, 20))
+        self.checkBox_ha.setObjectName("checkBox_ha")
 
         self.retranslateUi(Projekt_2DialogBase)
         self.button_box.accepted.connect(Projekt_2DialogBase.accept) # type: ignore
@@ -53,6 +74,10 @@ class Ui_Projekt_2DialogBase(object):
         Projekt_2DialogBase.setWindowTitle(_translate("Projekt_2DialogBase", "Projekt IG 2"))
         self.label_dh_select.setText(_translate("Projekt_2DialogBase", "Wybierz warstwę"))
         self.pushButton_dh.setText(_translate("Projekt_2DialogBase", "Oblicz różnicę wysokości"))
+        self.pushButton_pole.setText(_translate("Projekt_2DialogBase", "Oblicz pole"))
+        self.checkBox_m2.setText(_translate("Projekt_2DialogBase", "m^2"))
+        self.checkBox_ary.setText(_translate("Projekt_2DialogBase", "ary"))
+        self.checkBox_ha.setText(_translate("Projekt_2DialogBase", "ha"))
 from qgsmaplayercombobox import QgsMapLayerComboBox
 
 
