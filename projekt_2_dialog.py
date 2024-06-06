@@ -27,6 +27,7 @@ import os
 from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
 from PyQt5.QtCore import Qt
+from qgis.core import QgsVectorLayer, QgsFeature, QgsGeometry, QgsPointXY, QgsProject, iface
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -49,6 +50,7 @@ class Projekt_2Dialog(QtWidgets.QDialog, FORM_CLASS):
         self.checkBox_ary.stateChanged.connect(self.onCheckBoxChanged)
         self.checkBox_ha.stateChanged.connect(self.onCheckBoxChanged)
         self.pushButton_clear.clicked.connect(self.wyczysc_wyniki)
+        self.pushButton_poligon.clicked.connect(self.stworz_poligon)
         
     def calculate_dh(self):
         selected_layer = self.mMapLayerComboBox.currentLayer()
@@ -107,3 +109,27 @@ class Projekt_2Dialog(QtWidgets.QDialog, FORM_CLASS):
         self.label_h_error.clear()
         self.label_pole_error.clear()
         self.mMapLayerComboBox.clear()
+        
+        
+
+    
+    def stworz_poligon(self): 
+        layer_name = "Nowy Poligon"
+        crs = QgsProject.instance().crs()
+        polygon_layer = QgsVectorLayer("Polygon?crs={}".format(crs.authid()), layer_name, "memory")
+        QgsProject.instance().addMapLayer(polygon_layer)
+    
+   
+        punkt1 = QgsPointXY(0, 0)  
+        punkt2 = QgsPointXY(1, 0) 
+        punkt3 = QgsPointXY(1, 1)  
+        punkt4 = QgsPointXY(0, 1) 
+
+        polygon_feature = QgsFeature()
+        polygon_geometry = QgsGeometry.fromPolygonXY([[punkt1, punkt2, punkt3, punkt4]])
+        polygon_feature.setGeometry(polygon_geometry)
+        polygon_layer.dataProvider().addFeatures([polygon_feature])
+
+        
+        iface.mapCanvas().refresh()
+

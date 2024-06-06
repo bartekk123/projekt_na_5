@@ -64,16 +64,19 @@ class Ui_Projekt_2DialogBase(object):
         self.checkBox_ha.setGeometry(QtCore.QRect(230, 210, 81, 20))
         self.checkBox_ha.setObjectName("checkBox_ha")
         self.label_h_error = QtWidgets.QLabel(Projekt_2DialogBase)
-        self.label_h_error.setGeometry(QtCore.QRect(40, 300, 231, 51))
+        self.label_h_error.setGeometry(QtCore.QRect(30, 330, 231, 51))
         self.label_h_error.setText("")
         self.label_h_error.setObjectName("label_h_error")
         self.label_pole_error = QtWidgets.QLabel(Projekt_2DialogBase)
-        self.label_pole_error.setGeometry(QtCore.QRect(310, 300, 191, 51))
+        self.label_pole_error.setGeometry(QtCore.QRect(310, 340, 191, 51))
         self.label_pole_error.setText("")
         self.label_pole_error.setObjectName("label_pole_error")
         self.pushButton_clear = QtWidgets.QPushButton(Projekt_2DialogBase)
-        self.pushButton_clear.setGeometry(QtCore.QRect(50, 380, 191, 61))
+        self.pushButton_clear.setGeometry(QtCore.QRect(10, 420, 161, 41))
         self.pushButton_clear.setObjectName("pushButton_clear")
+        self.pushButton = QtWidgets.QPushButton(Projekt_2DialogBase)
+        self.pushButton.setGeometry(QtCore.QRect(180, 420, 151, 41))
+        self.pushButton.setObjectName("pushButton")
 
         self.retranslateUi(Projekt_2DialogBase)
         self.button_box.accepted.connect(Projekt_2DialogBase.accept) # type: ignore
@@ -90,6 +93,7 @@ class Ui_Projekt_2DialogBase(object):
         self.checkBox_ary.setText(_translate("Projekt_2DialogBase", "ary"))
         self.checkBox_ha.setText(_translate("Projekt_2DialogBase", "ha"))
         self.pushButton_clear.setText(_translate("Projekt_2DialogBase", "Wyczysc wyniki"))
+        self.pushButton.setText(_translate("Projekt_2DialogBase", "Utworz poligon"))
 from qgsmaplayercombobox import QgsMapLayerComboBox
 
 
