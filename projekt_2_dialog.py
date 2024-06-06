@@ -44,7 +44,7 @@ class Projekt_2Dialog(QtWidgets.QDialog, FORM_CLASS):
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
         self.pushButton_dh.clicked.connect(self.calculate_dh)
-        self.pushButton_pole.connect(self.oblicz_pole)
+        self.pushButton_pole.clicked.connect(self.oblicz_pole)
         self.checkBox_m2.stateChanged.connect(self.onCheckBoxChanged)
         self.checkBox_ary.stateChanged.connect(self.onCheckBoxChanged)
         self.checkBox_ha.stateChanged.connect(self.onCheckBoxChanged)
